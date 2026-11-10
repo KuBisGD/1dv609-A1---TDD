@@ -5,7 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * Dummy test to confirm Frame work is loaded.
+ * Dummy test to confirm Framework is loaded.
  */
 final class DummyTest extends TestCase
 {
