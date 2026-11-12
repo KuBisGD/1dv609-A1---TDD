@@ -67,5 +67,20 @@ final class MenuTest extends TestCase
 
         (void) $menu->getOption('3');
     }
+
+    public function testGetOptionReturnShouldNotBeIgnored(): void
+    {
+        $menu = new Menu(
+            new MenuOption('1', 'des1', fn () => 'call1'),
+            new MenuOption('2', 'des2', fn () => 'call2'),
+        );
+
+        $method = new ReflectionMethod(Menu::class, 'getOption');
+
+        $this->assertNotEmpty(
+            $method->getAttributes(NoDiscard::class), 
+            message: Menu::class.'::getOption() return value must not be able to be discarded'
+        );
+    }
 }
 
