@@ -58,11 +58,6 @@ final class MenuTest extends TestCase
 
     public function testGetOptionReturnShouldNotBeIgnored(): void
     {
-        $menu = new Menu(
-            new MenuOption('1', 'des1', fn () => 'call1'),
-            new MenuOption('2', 'des2', fn () => 'call2'),
-        );
-
         $method = new ReflectionMethod(Menu::class, 'getOption');
 
         $this->assertNotEmpty(
