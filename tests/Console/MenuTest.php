@@ -55,5 +55,17 @@ final class MenuTest extends TestCase
         $this->assertSame($firstMenu, $first);
         $this->assertSame($lastMenu, $last);
     }
+
+    public function testMenuThrowsIfGettingInvalidOption(): void
+    {
+        $menu = new Menu(
+            new MenuOption('1', 'des1', fn () => 'call1'),
+            new MenuOption('2', 'des2', fn () => 'call2'),
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+
+        (void) $menu->getOption('3');
+    }
 }
 
