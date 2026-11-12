@@ -10,10 +10,7 @@ final class MenuTest extends TestCase
 {
     public function testMenuCanBeCreatedWithOptions(): void
     {
-        $menu = new Menu(
-            new MenuOption('1', 'des1', fn () => 'call1'),
-            new MenuOption('2', 'des2', fn () => 'call2'),
-        );
+        $menu = new Menu(...$this->createMenuOptionArray(optionCount: 2));
 
         $this->assertInstanceOf(Menu::class, $menu);
     }
@@ -22,10 +19,7 @@ final class MenuTest extends TestCase
     {
         $optionCount = 2;
 
-        $menu = new Menu(
-            new MenuOption('1', 'des1', fn () => 'call1'),
-            new MenuOption('2', 'des2', fn () => 'call2'),
-        );
+        $menu = new Menu(...$this->createMenuOptionArray($optionCount));
 
         $this->assertInstanceOf(Countable::class, $menu);
 
@@ -40,28 +34,22 @@ final class MenuTest extends TestCase
 
     public function testMenuShouldProvideOptionFromSelectValue(): void
     {
-        $firstMenu = new MenuOption('1', 'des1', fn () => 'call1');
-        $lastMenu = new MenuOption('3', 'des2', fn () => 'call3');
+        $options = $this->createMenuOptionArray(3);
+        $firstOption = array_first($options);
+        $lastOption = array_last($options);
 
-        $menu = new Menu(
-            $firstMenu,
-            new MenuOption('2', 'des2', fn () => 'call2'),
-            $lastMenu
-        );
+        $menu = new Menu(...$options);
 
         $first = $menu->getOption('1');
         $last = $menu->getOption('3');
 
-        $this->assertSame($firstMenu, $first);
-        $this->assertSame($lastMenu, $last);
+        $this->assertSame($firstOption, $first);
+        $this->assertSame($lastOption, $last);
     }
 
     public function testMenuThrowsIfGettingInvalidOption(): void
     {
-        $menu = new Menu(
-            new MenuOption('1', 'des1', fn () => 'call1'),
-            new MenuOption('2', 'des2', fn () => 'call2'),
-        );
+        $menu = new Menu(...$this->createMenuOptionArray(optionCount: 2));
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -81,6 +69,17 @@ final class MenuTest extends TestCase
             $method->getAttributes(NoDiscard::class), 
             message: Menu::class.'::getOption() return value must not be able to be discarded'
         );
+    }
+
+    private function createMenuOptionArray(int $optionCount): array
+    {
+        $options = [];
+        foreach (range(1, $optionCount) as $i) {
+            $countString = (string) $i;
+            $options[] = new MenuOption($countString, 'description_'.$countString, fn () => 'call_'.$countString);
+        }
+
+        return $options;
     }
 }
 
