@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use App\Tdd\Console\MenuOption;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(MenuOption::class)]
 final class MenuOptionTest extends TestCase
 {
     private const String SELECT_VALUE = '1';
@@ -39,6 +42,21 @@ final class MenuOptionTest extends TestCase
         $return = $option->execute();
 
         $this->assertEquals(self::CALLBACK_RETURN, $return);
+    }
+
+    public static function constructorProvider(): array
+    {
+        $callable = fn () => self::CALLBACK_RETURN;
+        return [
+            'empty selectValue throws exception' => ['', self::DESCRIPTION, $callable],
+        ];
+    }
+
+    #[DataProvider('constructorProvider')]
+    public function testInvalidConstructorArgumentThrows(string $selectValue, string $description, callable $callable): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $option = new MenuOption($selectValue, $description, $callable);
     }
 
     private function createDefaultOption(): MenuOption
