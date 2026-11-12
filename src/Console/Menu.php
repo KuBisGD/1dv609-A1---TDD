@@ -17,16 +17,20 @@ final class Menu implements Countable, IteratorAggregate
     /**
      * @var array<string, MenuOption>
      */
-    private array $options;
+    private array $options = [];
 
     public function __construct(MenuOption ...$options)
     {
         if (count($options) < 1) {
-            throw new InvalidArgumentException('menu must contain at leas one option');
+            throw new InvalidArgumentException('menu must contain at least one option');
         }
 
         foreach ($options as $option) {
-            $this->options[$option->selectValue] = $option;
+            $key = $option->selectValue;
+            if (array_key_exists($key, $this->options)) {
+                throw new InvalidArgumentException('menu must not contain options with the same $selectValue (' . $key . ')');
+            }
+            $this->options[$key] = $option;
         }
     }
 
