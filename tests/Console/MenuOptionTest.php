@@ -20,10 +20,9 @@ final class MenuOptionTest extends TestCase
 
     public function testQuestionHasDescription(): void
     {
-        $description = 'test description';
         $question = $this->createDefaultOption();
 
-        $this->assertEquals($description, $question->description);
+        $this->assertEquals(self::DESCRIPTION, $question->description);
     }
 
     private function createDefaultOption(): MenuOption
