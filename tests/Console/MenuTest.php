@@ -37,5 +37,23 @@ final class MenuTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $menu = new Menu();
     }
+
+    public function testMenuShouldProvideOptionFromSelectValue(): void
+    {
+        $firstMenu = new MenuOption('1', 'des1', fn () => 'call1');
+        $lastMenu = new MenuOption('3', 'des2', fn () => 'call3');
+
+        $menu = new Menu(
+            $firstMenu,
+            new MenuOption('2', 'des2', fn () => 'call2'),
+            $lastMenu
+        );
+
+        $first = $menu->getOption('1');
+        $last = $menu->getOption('3');
+
+        $this->assertSame($firstMenu, $first);
+        $this->assertSame($lastMenu, $last);
+    }
 }
 
