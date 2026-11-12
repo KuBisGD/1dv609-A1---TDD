@@ -13,16 +13,16 @@ final class MenuOptionTest extends TestCase
 
     public function testCanBeCreatedWithValidArguments(): void
     {
-        $question = $this->createDefaultOption();
+        $option = $this->createDefaultOption();
 
-        $this->assertInstanceOf(MenuOption::class, $question);
+        $this->assertInstanceOf(MenuOption::class, $option);
     }
 
-    public function testQuestionHasDescription(): void
+    public function testOptionHasDescription(): void
     {
-        $question = $this->createDefaultOption();
+        $option = $this->createDefaultOption();
 
-        $this->assertEquals(self::DESCRIPTION, $question->description);
+        $this->assertEquals(self::DESCRIPTION, $option->description);
     }
 
     public function testOptionHasSelectValue(): void
