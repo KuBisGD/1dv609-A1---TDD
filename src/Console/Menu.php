@@ -6,6 +6,7 @@ namespace App\Tdd\Console;
 
 use Countable;
 use InvalidArgumentException;
+use NoDiscard;
 use Override;
 
 final class Menu implements Countable
@@ -26,6 +27,7 @@ final class Menu implements Countable
         }
     }
 
+    #[NoDiscard]
     public function getOption(string $selectValue): MenuOption
     {
         if (! isset($this->options[$selectValue])) {
