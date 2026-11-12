@@ -66,6 +66,15 @@ final class MenuTest extends TestCase
         );
     }
 
+    public function testMenuIsIterableOverItsOptions(): void
+    {
+        $options = $this->createMenuOptionArray(optionCount: 10);
+        $menu = new Menu(...$options);
+        
+        $this->assertIsIterable($menu);
+        $this->assertArraysHaveIdenticalValues($options, iterator_to_array($menu));
+    }
+
     private function createMenuOptionArray(int $optionCount): array
     {
         $options = [];
