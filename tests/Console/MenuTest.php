@@ -14,5 +14,7 @@ final class MenuTest extends TestCase
             new MenuOption('1', 'des1', fn () => 'call1'),
             new MenuOption('2', 'des2', fn () => 'call2'),
         );
+
+        $this->assertInstanceOf(Menu::class, $menu);
     }
 }
