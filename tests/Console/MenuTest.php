@@ -17,4 +17,18 @@ final class MenuTest extends TestCase
 
         $this->assertInstanceOf(Menu::class, $menu);
     }
+
+    public function testMenuShouldBeCountableForOptionCount(): void
+    {
+        $optionCount = 2;
+
+        $menu = new Menu(
+            new MenuOption('1', 'des1', fn () => 'call1'),
+            new MenuOption('2', 'des2', fn () => 'call2'),
+        );
+
+        $this->assertInstanceOf(Countable::class, $menu);
+
+        $this->assertEquals($optionCount, count($menu));
+    }
 }
