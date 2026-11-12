@@ -75,6 +75,14 @@ final class MenuTest extends TestCase
         $this->assertArraysHaveIdenticalValues($options, iterator_to_array($menu));
     }
 
+    public function testMenuShouldNotHaveOptionWithDuplicateSelectValues(): void
+    {
+        $option = new MenuOption('1', '1', fn () => '1');
+
+        $this->expectException(InvalidArgumentException::class);
+        new Menu($option, $option);
+    }
+
     private function createMenuOptionArray(int $optionCount): array
     {
         $options = [];
