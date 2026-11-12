@@ -25,6 +25,13 @@ final class MenuOptionTest extends TestCase
         $this->assertEquals(self::DESCRIPTION, $question->description);
     }
 
+    public function testOptionHasSelectValue(): void
+    {
+        $option = $this->createDefaultOption();
+
+        $this->assertEquals(self::SELECT_VALUE, $option->selectValue);
+    }
+
     private function createDefaultOption(): MenuOption
     {
         return new MenuOption(selectValue: self::SELECT_VALUE, description: self::DESCRIPTION, callback: fn () => self::CALLBACK_RETURN);
