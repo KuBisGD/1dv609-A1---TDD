@@ -49,6 +49,7 @@ final class MenuOptionTest extends TestCase
         $callable = fn () => self::CALLBACK_RETURN;
         return [
             'empty selectValue throws exception' => ['', self::DESCRIPTION, $callable],
+            'empty description throws exception' => [self::SELECT_VALUE, '', $callable],
         ];
     }
 
