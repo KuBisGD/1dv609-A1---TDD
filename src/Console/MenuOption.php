@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tdd\Console;
 
+use BackedEnum;
 use Closure;
 use InvalidArgumentException;
 
@@ -19,20 +20,21 @@ final class MenuOption
     /**
      * Creates a new MenuOption.
      *
-     * @param string $selectValue
+     * @param string|BackedEnum<string> $selectValue
      * @param string $description
      * @param callable(): TReturn $callback
      */
-    public function __construct(string $selectValue, string $description, callable $callback)
+    public function __construct(string|BackedEnum $selectValue, string $description, callable $callback)
     {
-        if (strlen($selectValue) < 1) {
+        $selectValueString = $selectValue instanceof BackedEnum ? $selectValue->value : $selectValue;
+        if (strlen($selectValueString) < 1) {
             throw new InvalidArgumentException('select value must not be blank');
         }
         if (strlen($description) < 1) {
             throw new InvalidArgumentException('description must not be empty');
         }
 
-        $this->selectValue = $selectValue;
+        $this->selectValue = $selectValueString;
         $this->description = $description;
         $this->callback = Closure::fromCallable($callback);
     }
