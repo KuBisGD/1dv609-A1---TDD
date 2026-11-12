@@ -18,7 +18,14 @@ final class Menu implements Countable
             throw new InvalidArgumentException('menu must contain at leas one option');
         }
 
-        $this->options = $options;
+        foreach ($options as $option) {
+            $this->options[$option->selectValue] = $option;
+        }
+    }
+
+    public function getOption(string $selectValue): MenuOption
+    {
+        return $this->options[$selectValue];
     }
 
     #[Override]
