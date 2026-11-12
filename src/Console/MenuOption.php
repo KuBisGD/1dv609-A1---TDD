@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tdd\Console;
 
 use Closure;
+use InvalidArgumentException;
 
 /**
  * @template TReturn
@@ -24,6 +25,10 @@ final class MenuOption
      */
     public function __construct(string $selectValue, string $description, callable $callback)
     {
+        if (strlen($selectValue) < 1) {
+            throw new InvalidArgumentException('select value must not be blank');
+        }
+
         $this->selectValue = $selectValue;
         $this->description = $description;
         $this->callback = Closure::fromCallable($callback);
