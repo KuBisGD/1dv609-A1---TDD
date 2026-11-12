@@ -28,6 +28,9 @@ final class MenuOption
         if (strlen($selectValue) < 1) {
             throw new InvalidArgumentException('select value must not be blank');
         }
+        if (strlen($description) < 1) {
+            throw new InvalidArgumentException('description must not be empty');
+        }
 
         $this->selectValue = $selectValue;
         $this->description = $description;
