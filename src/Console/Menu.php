@@ -10,6 +10,9 @@ use Override;
 
 final class Menu implements Countable
 {
+    /**
+     * @var array<string, MenuOption>
+     */
     private array $options;
 
     public function __construct(MenuOption ...$options)
@@ -25,6 +28,10 @@ final class Menu implements Countable
 
     public function getOption(string $selectValue): MenuOption
     {
+        if (! isset($this->options[$selectValue])) {
+            throw new InvalidArgumentException('option for selectValue of: ' . $selectValue . ' does not exist on this menu');
+        }
+
         return $this->options[$selectValue];
     }
 
