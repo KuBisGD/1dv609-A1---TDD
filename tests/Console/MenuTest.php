@@ -31,4 +31,11 @@ final class MenuTest extends TestCase
 
         $this->assertEquals($optionCount, count($menu));
     }
+
+    public function testMenuShouldNotBeCreatedWithNoOptions(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $menu = new Menu();
+    }
 }
+
