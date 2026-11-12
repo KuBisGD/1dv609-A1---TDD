@@ -46,9 +46,9 @@ final class MenuOptionTest extends TestCase
     public static function constructorProvider(): array
     {
         return [
-            'empty selectValue throws exception' => ['', self::DESCRIPTION],
-            'empty selectValue as enum throws exception' => [SelectValue::BLANK_VALUE, self::DESCRIPTION],
-            'empty description throws exception' => [self::SELECT_VALUE, ''],
+            'empty selectValue' => ['', self::DESCRIPTION],
+            'empty selectValue as enum' => [SelectValue::BLANK_VALUE, self::DESCRIPTION],
+            'empty description' => [self::SELECT_VALUE, ''],
         ];
     }
 

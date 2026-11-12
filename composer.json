@@ -14,7 +14,7 @@
     ],
     "scripts": {
       "start": "php ./src/main.php",
-      "test": "./vendor/bin/phpunit tests"
+      "test": "./vendor/bin/phpunit tests --testdox --colors=always --display-all-issues --fail-on-all-issues"
     },
     "minimum-stability": "stable",
     "require-dev": {
