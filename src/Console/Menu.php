@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tdd\Console;
 
+use ArrayIterator;
 use Countable;
 use InvalidArgumentException;
+use IteratorAggregate;
 use NoDiscard;
 use Override;
+use Traversable;
 
-final class Menu implements Countable
+final class Menu implements Countable, IteratorAggregate
 {
     /**
      * @var array<string, MenuOption>
@@ -41,5 +44,14 @@ final class Menu implements Countable
     public function count(): int
     {
         return count($this->options);
+    }
+
+    /**
+     * @return Traversable<string, MenuOption>
+     */
+    #[Override]
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->options);
     }
 }
