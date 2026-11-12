@@ -7,11 +7,27 @@ use App\Tdd\Console\MenuOption;
 
 final class MenuOptionTest extends TestCase
 {
+    private const String SELECT_VALUE = '1';
+    private const String DESCRIPTION = 'des';
+    private const String CALLBACK_RETURN = 'Hello World';
+
+    public function testCanBeCreatedWithValidArguments(): void
+    {
+        $question = $this->createDefaultOption();
+
+        $this->assertInstanceOf(MenuOption::class, $question);
+    }
+
     public function testQuestionHasDescription(): void
     {
         $description = 'test description';
-        $question = new MenuOption($description);
+        $question = $this->createDefaultOption();
 
         $this->assertEquals($description, $question->description);
+    }
+
+    private function createDefaultOption(): MenuOption
+    {
+        return new MenuOption(selectValue: self::SELECT_VALUE, description: self::DESCRIPTION, callback: fn () => self::CALLBACK_RETURN);
     }
 }
