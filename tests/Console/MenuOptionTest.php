@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 enum SelectValue: string
 {
     case PASSING_VALUE = 'test';
+    case BLANK_VALUE = '';
 }
 
 #[CoversClass(MenuOption::class)]
@@ -51,18 +52,18 @@ final class MenuOptionTest extends TestCase
 
     public static function constructorProvider(): array
     {
-        $callable = fn () => self::CALLBACK_RETURN;
         return [
-            'empty selectValue throws exception' => ['', self::DESCRIPTION, $callable],
-            'empty description throws exception' => [self::SELECT_VALUE, '', $callable],
+            'empty selectValue throws exception' => ['', self::DESCRIPTION],
+            'empty selectValue as enum throws exception' => [SelectValue::BLANK_VALUE, self::DESCRIPTION],
+            'empty description throws exception' => [self::SELECT_VALUE, ''],
         ];
     }
 
     #[DataProvider('constructorProvider')]
-    public function testInvalidConstructorArgumentThrows(string $selectValue, string $description, callable $callable): void
+    public function testInvalidConstructorArgumentThrows(string|BackedEnum $selectValue, string $description): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $option = new MenuOption($selectValue, $description, $callable);
+        $option = new MenuOption($selectValue, $description, fn () => self::CALLBACK_RETURN);
     }
 
     public function testSelectValueCanBeBackedEnum(): void
