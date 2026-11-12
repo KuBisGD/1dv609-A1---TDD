@@ -27,18 +27,11 @@ final class MenuOptionTest extends TestCase
         $this->assertInstanceOf(MenuOption::class, $option);
     }
 
-    public function testOptionHasDescription(): void
+    public function testPublicGetters(): void
     {
         $option = $this->createDefaultOption();
-
-        $this->assertEquals(self::DESCRIPTION, $option->description);
-    }
-
-    public function testOptionHasSelectValue(): void
-    {
-        $option = $this->createDefaultOption();
-
-        $this->assertEquals(self::SELECT_VALUE, $option->selectValue);
+        $this->assertEquals(self::DESCRIPTION, $option->description, message: 'Description getter must match provided string');
+        $this->assertEquals(self::SELECT_VALUE, $option->selectValue, message: 'Select value getter must match provided string');        
     }
 
     public function testOptionCanExecuteProvidedCallable(): void
