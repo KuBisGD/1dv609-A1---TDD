@@ -7,6 +7,11 @@ use App\Tdd\Console\MenuOption;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+enum SelectValue: string
+{
+    case PASSING_VALUE = 'test';
+}
+
 #[CoversClass(MenuOption::class)]
 final class MenuOptionTest extends TestCase
 {
@@ -58,6 +63,14 @@ final class MenuOptionTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $option = new MenuOption($selectValue, $description, $callable);
+    }
+
+    public function testSelectValueCanBeBackedEnum(): void
+    {
+        $selectValue = SelectValue::PASSING_VALUE;
+        $option = new MenuOption($selectValue, self::DESCRIPTION, fn () => self::CALLBACK_RETURN);
+
+        $this->assertEquals($selectValue->value, $option->selectValue);
     }
 
     private function createDefaultOption(): MenuOption
