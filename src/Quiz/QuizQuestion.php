@@ -6,7 +6,7 @@ namespace App\Tdd\Quiz;
 
 use InvalidArgumentException;
 
-readonly class QuizQuestion
+final readonly class QuizQuestion
 {
     public string $question;
 

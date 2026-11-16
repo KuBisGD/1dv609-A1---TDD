@@ -4,9 +4,66 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aba0f67dc54bcf7cc22ddda74bb55839",
+    "content-hash": "9aa1cf5fcff6dacffc2811bce6943104",
     "packages": [],
     "packages-dev": [
+        {
+            "name": "dg/bypass-finals",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dg/bypass-finals.git",
+                "reference": "295d8549a99848afc7fe39099d9bfac6fceb0e75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/295d8549a99848afc7fe39099d9bfac6fceb0e75",
+                "reference": "295d8549a99848afc7fe39099d9bfac6fceb0e75",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.6",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0-only",
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                }
+            ],
+            "description": "🔓 BypassFinals: removes final and readonly from your code on the fly, so you can mock final classes and methods in PHPUnit, Mockery or Nette Tester.",
+            "keywords": [
+                "final",
+                "mock final class",
+                "mockery",
+                "mocking",
+                "phpunit",
+                "readonly",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/dg/bypass-finals/issues",
+                "source": "https://github.com/dg/bypass-finals/tree/v1.11.1"
+            },
+            "time": "2026-10-23T13:27:43+00:00"
+        },
         {
             "name": "myclabs/deep-copy",
             "version": "1.14.0",
@@ -123,6 +180,79 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.9.0"
             },
             "time": "2026-09-13T18:51:52+00:00"
+        },
+        {
+            "name": "nunomaduro/mock-final-classes",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nunomaduro/mock-final-classes.git",
+                "reference": "b13fc71acd9d6f1e2de8209217103cbd2035871f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nunomaduro/mock-final-classes/zipball/b13fc71acd9d6f1e2de8209217103cbd2035871f",
+                "reference": "b13fc71acd9d6f1e2de8209217103cbd2035871f",
+                "shasum": ""
+            },
+            "require": {
+                "dg/bypass-finals": "^1.1",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "localheinz/phpstan-rules": "^0.10.0",
+                "phpstan/phpstan": "^0.11.8",
+                "phpstan/phpstan-strict-rules": "^0.11.1",
+                "phpunit/phpunit": "^7.0|^8.0|^9.3",
+                "thecodingmachine/phpstan-strict-rules": "^0.11.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ],
+                "psr-4": {
+                    "NunoMaduro\\MockFinalClasses\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nuno Maduro",
+                    "email": "enunomaduro@gmail.com"
+                }
+            ],
+            "description": "Allows mocking of final methods and classes in PHP.",
+            "keywords": [
+                "class",
+                "classes",
+                "final",
+                "mock",
+                "php",
+                "phpunit"
+            ],
+            "support": {
+                "issues": "https://github.com/nunomaduro/mock-final-classes/issues",
+                "source": "https://github.com/nunomaduro/mock-final-classes/tree/v1.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/nunomaduro",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/nunomaduro",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-05-14T23:33:16+00:00"
         },
         {
             "name": "phar-io/manifest",
