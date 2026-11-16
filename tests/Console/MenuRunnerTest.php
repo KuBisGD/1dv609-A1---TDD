@@ -14,45 +14,61 @@ final class MenuRunnerTest extends TestCase
 {
     public function testCanBeCreatedWithMenuAndInterfaces(): void
     {
-        [
-            'formatter' => $formatter, 
-            'input' => $input, 
-            'output' =>$output
-        ] = $this->createInterfaces();
         $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
-        $runner = new MenuRunner(menu: $menu, formatter: $formatter, input: $input, output: $output);
+        $runner = new MenuRunner(
+            menu: $menu, 
+            formatter: $this->createStub(MenuFormatter::class), 
+            input: $this->createStub(Input::class), 
+            output: $this->createStub(Output::class)
+        );
 
         $this->assertInstanceOf(MenuRunner::class, $runner);
     }
 
     public function testRunnerCanRenderTheMenu(): void
     {
-        $outputString = '';
-        [
-            'formatter' => $formatter, 
-            'input' => $input, 
-            'output' => $output
-        ] = $this->createInterfaces('1', writeTo: $outputString);
+        $expectedFormat = '1: first 1';
 
         $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
-        $runner = new MenuRunner(menu: $menu, formatter: $formatter, input: $input, output: $output);
+        $runner = new MenuRunner(
+            menu: $menu, 
+            formatter: $this->getFormatterMock($expectedFormat), 
+            input: $this->getInputStub('any'), 
+            output: $this->getOutputMock(calledWith: $expectedFormat)
+        );
         $runner->renderMenu();
-        $this->assertEquals('1: first 1', $outputString);
+    }
+
+    private function getInputStub(string $inputReturnValue): Input
+    {
+        $mock = $this->createStub(Input::class);
+        $mock->method('read')->willReturn($inputReturnValue);
+        return $mock;
+    }
+
+    private function getOutputMock(string $calledWith): Output
+    {
+        $mock = $this->createMock(Output::class);
+        $mock->expects($this->once())
+            ->method('write')
+            ->with($calledWith);
+        return $mock;
+    }
+
+    private function getFormatterMock(string $formatReturn): MenuFormatter
+    {
+        $mock = $this->createMock(MenuFormatter::class);
+        $mock->expects($this->once())
+            ->method('format')
+            ->willReturn($formatReturn);
+        return $mock;
     }
 
     private function createInterfaces(string $inputValue = '', string& $writeTo = ''): array
     {
         return [
 
-            'input' => new class($inputValue) implements Input {
-                public function __construct(private string $return) {}
-                
-                #[Override]
-                public function read(): string
-                {
-                    return $this->return;
-                }
-            },
+            'input' => $this->getInputStub($inputValue),
 
             'output' => new class($writeTo) implements Output {
                 public string $output;
