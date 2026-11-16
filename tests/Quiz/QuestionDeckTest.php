@@ -19,7 +19,22 @@ final class QuestionDeckTest extends TestCase
             $this->createQuestionWithNoConstructor(), 
             $this->createQuestionWithNoConstructor()
         );
+
         $this->assertInstanceOf(QuestionDeck::class, $deck);
+    }
+
+    public function testCorrectlyImplementsIterator(): void
+    {
+        $questions = [
+            $this->createQuestionWithNoConstructor(), 
+            $this->createQuestionWithNoConstructor(), 
+            $this->createQuestionWithNoConstructor()
+        ];
+
+        $deck = new QuestionDeck(...$questions);
+
+        $this->assertInstanceOf(Iterator::class, $deck, message: 'Must implement ' . Iterator::class);
+        $this->assertArraysHaveEqualValues($questions, iterator_to_array($deck));
     }
 
     private function createQuestionWithNoConstructor(): QuizQuestion
