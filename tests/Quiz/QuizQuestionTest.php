@@ -10,46 +10,27 @@ final class QuizQuestionTest extends TestCase
 {
     public function testQuestionIsCreatedWithQuestionAndAnswers(): void
     {
-        $question = new QuizQuestion(question: 'What is 2+2?',
-            answers: [
-                ['answer' => '1', 'isCorrect' => false],
-                ['answer' => '2', 'isCorrect' => false],
-                ['answer' => '3', 'isCorrect' => false],
-                ['answer' => '4', 'isCorrect' => true],
-            ]
-        );
+        $template = $this->getQuestionTemplate();
+        $question = new QuizQuestion($template['question'], $template['answers']);
 
         $this->assertInstanceOf(QuizQuestion::class, $question);
     }
 
     public function testGetQuestionAsString(): void
     {
-        $questionString = 'What is 2+2?';
-        $question = new QuizQuestion(question: $questionString,
-            answers: [
-                ['answer' => '1', 'isCorrect' => false],
-                ['answer' => '2', 'isCorrect' => false],
-                ['answer' => '3', 'isCorrect' => false],
-                ['answer' => '4', 'isCorrect' => true],
-            ]
-        );
+        $template = $this->getQuestionTemplate();
+        $question = new QuizQuestion($template['question'], $template['answers']);
 
-        $this->assertEquals($questionString, $question->question);
+        $this->assertEquals($template['question'], $question->question);
     }
 
     public function testSubmittingAnswerReturnsValidityOfSubmission(): void
     {
-        $question = new QuizQuestion(question: 'What is 2+2?',
-            answers: [
-                ['answer' => '1', 'isCorrect' => false],
-                ['answer' => '2', 'isCorrect' => false],
-                ['answer' => '3', 'isCorrect' => false],
-                ['answer' => '4', 'isCorrect' => true],
-            ]
-        );
+        $template = $this->getQuestionTemplate();
+        $question = new QuizQuestion($template['question'], $template['answers']);
 
-        $false = $question->submitAnswer('3');
-        $true = $question->submitAnswer('4');
+        $false = $question->submitAnswer($template['wrong']);
+        $true = $question->submitAnswer($template['correct']);
 
         $this->assertFalse($false);
         $this->assertTrue($true);
@@ -70,6 +51,21 @@ final class QuizQuestionTest extends TestCase
             'incorrect array associations (answer)' => [['a' => 'a', 'isCorrect' => true]],
             'incorrect array associations (isCorrect)' => [['answer' => 'a', 'i' => true]],
             'no correct answers' => [['answer' => '1', 'isCorrect' => false]],
+        ];
+    }
+
+    private function getQuestionTemplate(): array
+    {
+        return [
+            'question' => 'What is 2+2?',
+            'answers' => [
+                ['answer' => '1', 'isCorrect' => false],
+                ['answer' => '2', 'isCorrect' => false],
+                ['answer' => '3', 'isCorrect' => false],
+                ['answer' => '4', 'isCorrect' => true],
+            ],
+            'correct' => '4',
+            'wrong' => '3',
         ];
     }
 }
