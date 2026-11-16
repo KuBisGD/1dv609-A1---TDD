@@ -8,15 +8,20 @@ use InvalidArgumentException;
 
 readonly class QuizQuestion
 {
+    public string $question;
+
     /**
-     * @param string $question
+     * @param non-empty-string $question
      * @param array<int, array{answer: string, isCorrect: bool}> $answers
      */
-    public function __construct(public string $question, public array $answers) {
+    public function __construct(string $question, public array $answers) {
+        $this->question = trim($question);
+        if (strlen($this->question) < 1) {
+            throw new InvalidArgumentException('strlen of trimmed question must be at least 1');
+        } 
+
         $count = count($answers);
         if ($count < 1) throw new InvalidArgumentException(self::class . ' must have at least one answer');
-
-
         for ($i = 0; $i < $count; $i++) {
             if (! isset($answers[$i]['answer'])) {
                 throw new InvalidArgumentException('missing answer-string on answer index ' . $i);
