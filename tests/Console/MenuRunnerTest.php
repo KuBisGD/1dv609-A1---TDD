@@ -41,9 +41,9 @@ final class MenuRunnerTest extends TestCase
 
     public function testOptionCanBeSelectedFromInput(): void
     {   
-        $expectedReturn = 'Hello world';
+        $expectedReturn = 'Hello world_3';
         $option = $this->createMock(MenuOption::class);
-        $option->__construct('3', 'first 3', fn () => 'Hello world_3');
+        $option->__construct('3', 'first 3', fn () => $expectedReturn);
         $option->expects($this->once())
             ->method('execute')
             ->willReturn($expectedReturn);
@@ -52,6 +52,11 @@ final class MenuRunnerTest extends TestCase
         $input->expects($this->once())
             ->method('read')
             ->willReturn('3');
+
+        $output = $this->createMock(Output::class);
+        $output->expects($this->once())
+            ->method('write')
+            ->with($expectedReturn);
 
         $menu = new Menu(
             new MenuOption('1', 'first 1', fn () => 'Hello world_1'),
@@ -62,7 +67,7 @@ final class MenuRunnerTest extends TestCase
             menu: $menu, 
             formatter: $this->createStub(MenuFormatter::class), 
             input: $input, 
-            output: $this->createStub(Output::class)
+            output: $output
         );
 
         $runner->selectOptionFromInput();
