@@ -24,6 +24,15 @@ final class QuizQuestionTest extends TestCase
         $this->assertEquals($template['question'], $question->question);
     }
 
+    public function testQuestionThrowsOnEmptyQuestionString(): void
+    {
+        $template = $this->getQuestionTemplate();
+        $this->expectException(InvalidArgumentException::class);
+        new QuizQuestion('', $template['answers']);
+        new QuizQuestion(' ', $template['answers']);
+        new QuizQuestion('    ', $template['answers']);
+    }
+
     public function testSubmittingAnswerReturnsValidityOfSubmission(): void
     {
         $template = $this->getQuestionTemplate();
