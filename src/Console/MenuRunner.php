@@ -17,7 +17,7 @@ final class MenuRunner
         private Output $output)
     {}
 
-    public function render(): void
+    public function renderMenu(): void
     {
         $formatted = $this->formatter->format($this->menu);
         $this->output->write($formatted);

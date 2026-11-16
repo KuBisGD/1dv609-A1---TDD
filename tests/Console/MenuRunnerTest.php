@@ -36,7 +36,7 @@ final class MenuRunnerTest extends TestCase
 
         $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
         $runner = new MenuRunner(menu: $menu, formatter: $formatter, input: $input, output: $output);
-        $runner->render();
+        $runner->renderMenu();
         $this->assertEquals('1: first 1', $outputString);
     }
 
