@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 use App\Tdd\Quiz\QuizQuestion;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(QuizQuestion::class)]
 final class QuizQuestionTest extends TestCase
 {
     public function testQuestionIsCreatedWithQuestionAndAnswers(): void
@@ -46,7 +48,7 @@ final class QuizQuestionTest extends TestCase
     }
 
     #[DataProvider('invalidAnswersProvider')]
-    public function testInvalidQuestionFormatThrows($answers): void
+    public function testInvalidQuestionFormatThrows(array $answers): void
     {
         $this->expectException(InvalidArgumentException::class);
         new QuizQuestion('What is 2 + 2?', $answers);
