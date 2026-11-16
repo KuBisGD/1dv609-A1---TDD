@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tdd\Console\Interface;
+
+use App\Tdd\Console\Menu;
+
+interface MenuFormatter
+{
+    public function format(Menu $menu): string;
+}
