@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Tdd\Quiz\QuizQuestion;
+use PHPUnit\Framework\TestCase;
+
+final class QuizQuestionTest extends TestCase
+{
+    public function testQuestionIsCreatedWithQuestionAndAnswers(): void
+    {
+        $question = new QuizQuestion(question: 'What is 2+2?',
+            answers: [
+                ['answer' => '1', 'isCorrect' => false],
+                ['answer' => '2', 'isCorrect' => false],
+                ['answer' => '3', 'isCorrect' => false],
+                ['answer' => '4', 'isCorrect' => true],
+            ]
+        );
+
+        $this->assertInstanceOf(QuizQuestion::class, $question);
+    }    
+}
