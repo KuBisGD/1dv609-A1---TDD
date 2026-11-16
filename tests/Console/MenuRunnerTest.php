@@ -25,7 +25,22 @@ final class MenuRunnerTest extends TestCase
         $this->assertInstanceOf(MenuRunner::class, $runner);
     }
 
-    private function createInterfaces(string $inputValue = ''): array
+    public function testRunnerCanRenderTheMenu(): void
+    {
+        $outputString = '';
+        [
+            'formatter' => $formatter, 
+            'input' => $input, 
+            'output' => $output
+        ] = $this->createInterfaces('1', writeTo: $outputString);
+
+        $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
+        $runner = new MenuRunner(menu: $menu, formatter: $formatter, input: $input, output: $output);
+        $runner->render();
+        $this->assertEquals('1: first 1', $outputString);
+    }
+
+    private function createInterfaces(string $inputValue = '', string& $writeTo = ''): array
     {
         return [
 
@@ -39,15 +54,29 @@ final class MenuRunnerTest extends TestCase
                 }
             },
 
-            'output' => new class implements Output {
+            'output' => new class($writeTo) implements Output {
+                public string $output;
+
+                public function __construct(string& $writeTo)
+                {
+                    $this->output =& $writeTo;
+                }
+
                 #[Override]
-                public function write(string $string): void {}
+                public function write(string $string): void {
+                    $this->output = $string;
+                }
             },
 
             'formatter' => new class implements MenuFormatter {
                 #[Override]
                 public function format(Menu $menu): string {
-                    return '';
+                    $formatted = '';
+                    foreach ($menu as $option) {
+                        $formatted .= $option->selectValue . ': ' . $option->description;
+                    }
+
+                    return $formatted;
                 }
             }
 
