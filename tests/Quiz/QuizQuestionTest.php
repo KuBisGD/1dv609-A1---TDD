@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Tdd\Quiz\QuizQuestion;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class QuizQuestionTest extends TestCase
@@ -52,5 +53,23 @@ final class QuizQuestionTest extends TestCase
 
         $this->assertFalse($false);
         $this->assertTrue($true);
+    }
+
+    #[DataProvider('invalidAnswersProvider')]
+    public function testInvalidQuestionFormatThrows($answers): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new QuizQuestion('What is 2 + 2?', $answers);
+    }
+
+    
+    public static function invalidAnswersProvider(): array
+    {
+        return [
+            'empty answer array' => [[]],
+            'incorrect array associations (answer)' => [['a' => 'a', 'isCorrect' => true]],
+            'incorrect array associations (isCorrect)' => [['answer' => 'a', 'i' => true]],
+            'no correct answers' => [['answer' => '1', 'isCorrect' => false]],
+        ];
     }
 }
