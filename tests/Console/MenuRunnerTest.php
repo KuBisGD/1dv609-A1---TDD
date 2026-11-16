@@ -20,7 +20,7 @@ final class MenuRunnerTest extends TestCase
             'output' =>$output
         ] = $this->createInterfaces();
         $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
-        $runner = new MenuRunner(menu: $menu, format: $formatter, input: $input, output: $output);
+        $runner = new MenuRunner(menu: $menu, formatter: $formatter, input: $input, output: $output);
 
         $this->assertInstanceOf(MenuRunner::class, $runner);
     }
