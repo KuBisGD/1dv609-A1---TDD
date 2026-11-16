@@ -13,7 +13,7 @@ final class QuizQuestionTest extends TestCase
     public function testQuestionIsCreatedWithQuestionAndAnswers(): void
     {
         $template = $this->getQuestionTemplate();
-        $question = new QuizQuestion($template['question'], $template['answers']);
+        $question = new QuizQuestion(question: $template['question'], answers: $template['answers']);
 
         $this->assertInstanceOf(QuizQuestion::class, $question);
     }
