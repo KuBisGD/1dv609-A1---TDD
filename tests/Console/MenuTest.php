@@ -83,6 +83,20 @@ final class MenuTest extends TestCase
         new Menu($option, $option);
     }
 
+    public function testMenuCanExecuteOption(): void
+    {
+        $expected = 'Hello World';
+        $mock = $this->createMock(MenuOption::class);
+        $mock->__construct('1', '1', fn () => '1');
+        $mock->expects($this->once())
+            ->method('execute')
+            ->willReturn($expected);
+
+        $menu = new Menu($mock);
+
+        $this->assertEquals($menu->executeOption('1'), $expected);
+    }
+
     private function createMenuOptionArray(int $optionCount): array
     {
         $options = [];
