@@ -22,6 +22,7 @@ final readonly class QuizQuestion
 
         $count = count($answers);
         if ($count < 1) throw new InvalidArgumentException(self::class . ' must have at least one answer');
+        $hasCorrectAnswer = false;
         for ($i = 0; $i < $count; $i++) {
             if (! isset($answers[$i]['answer'])) {
                 throw new InvalidArgumentException('missing answer-string on answer index ' . $i);
@@ -29,6 +30,12 @@ final readonly class QuizQuestion
             if (! isset($answers[$i]['isCorrect'])) {
                 throw new InvalidArgumentException('missing correctness on answer index ' . $i);
             }
+            if ($answers[$i]['isCorrect'] === true) {
+                $hasCorrectAnswer = true;
+            }
+        }
+        if (! $hasCorrectAnswer) {
+            throw new InvalidArgumentException(self::class . ' must have at least one correct answer');
         }
     }
 
