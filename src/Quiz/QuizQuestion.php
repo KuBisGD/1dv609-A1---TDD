@@ -41,12 +41,14 @@ final readonly class QuizQuestion
 
     public function submitAnswer(string $answer): bool
     {
+        $isCorrect = false;
         foreach ($this->answers as $answerOption) {
-            if ($answerOption['isCorrect']) {
-                return $answerOption['answer'] === $answer;
+            if ($answerOption['isCorrect'] && $answerOption['answer'] === $answer) {
+                $isCorrect = true;
+                break;
             }
         }
 
-        return false;
+        return $isCorrect;
     }
 }
