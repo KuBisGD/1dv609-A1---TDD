@@ -59,9 +59,9 @@ final class QuizQuestionTest extends TestCase
     {
         return [
             'empty answer array' => [[]],
-            'incorrect array associations (answer)' => [['a' => 'a', 'isCorrect' => true]],
-            'incorrect array associations (isCorrect)' => [['answer' => 'a', 'i' => true]],
-            'no correct answers' => [['answer' => '1', 'isCorrect' => false]],
+            'incorrect array associations (answer)' => [[['a' => 'a', 'isCorrect' => true]]],
+            'incorrect array associations (isCorrect)' => [[['answer' => 'a', 'i' => true]]],
+            'no correct answers' => [[['answer' => '1', 'isCorrect' => false]]],
         ];
     }
 
