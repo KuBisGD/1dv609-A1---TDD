@@ -12,13 +12,19 @@ use NoDiscard;
 use Override;
 use Traversable;
 
+/**
+ * @template TReturn
+ */
 final class Menu implements Countable, IteratorAggregate
 {
     /**
-     * @var array<string, MenuOption>
+     * @var array<string, MenuOption<TReturn>>
      */
     private array $options = [];
 
+    /**
+     * @param MenuOption<TReturn> ...$options
+     */
     public function __construct(MenuOption ...$options)
     {
         if (count($options) < 1) {
@@ -34,6 +40,7 @@ final class Menu implements Countable, IteratorAggregate
         }
     }
 
+    /** @return MenuOption<TReturn> */
     #[NoDiscard]
     public function getOption(string $selectValue): MenuOption
     {
@@ -42,6 +49,13 @@ final class Menu implements Countable, IteratorAggregate
         }
 
         return $this->options[$selectValue];
+    }
+
+    /** @return TReturn */
+    public function executeOption(string $selectValue): mixed
+    {
+        $option = $this->getOption($selectValue);
+        return $option->execute();
     }
 
     #[Override]
