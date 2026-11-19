@@ -22,4 +22,15 @@ final class MenuRunner
         $formatted = $this->formatter->format($this->menu);
         $this->output->write($formatted);
     }
+
+    public function selectOptionFromInput(): void
+    {
+        $input = $this->input->read();
+        $option = $this->menu->getOption($input);
+        $return = $option->execute();
+
+        if (isset($return)) {
+            $this->output->write($return);
+        }
+    }
 }
