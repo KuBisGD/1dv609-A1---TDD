@@ -65,7 +65,7 @@ final class Menu implements Countable, IteratorAggregate
     }
 
     /**
-     * @return Traversable<string, MenuOption>
+     * @return Traversable<string, MenuOption<TReturn>>
      */
     #[Override]
     public function getIterator(): Traversable
