@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+if (PHP_VERSION_ID < 80500) {
+    echo 'PHP version must be 8.5.0 or later';
+    die(1);
+}
+
+define('__AUTOLOADER__', __DIR__.'/vendor/autoload.php');
+define('__MAIN__', __DIR__.'/src/main.php');
+define('__STARTUP__', microtime(as_float: true));
+
+
+require_once __AUTOLOADER__;
+if(@include_once __MAIN__) exit(0);
+
+echo 'could not locate file ' . __MAIN__;
+die(2);
