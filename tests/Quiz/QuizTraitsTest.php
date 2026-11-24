@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Tdd\Quiz\QuestionDeck;
 use App\Tdd\Quiz\QuizQuestion;
+use App\Tdd\Quiz\Trait\DeckFactoryTrait;
 use App\Tdd\Quiz\Trait\QuestionFactoryTrait;
 use App\Tdd\Quiz\Trait\ReadQuestionFileTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -120,5 +122,47 @@ final class QuizTraitsTest extends TestCase
     {
         $this->reader->path = $this->tempfileName;
         $this->assertArraysHaveIdenticalValues($this->data, $this->reader->parse());
+    }
+
+    public function testDeckFactoryCanCreateDeck(): void
+    {
+        $qFactory = new class {
+            use QuestionFactoryTrait;
+
+            public function create(array $question): QuizQuestion
+            {
+                return $this->createQuestion($question);
+            }
+        };
+
+
+        $question = $qFactory->create([
+            'question' => 'What is 2+2?',
+            'answers' => [
+                ['answer' => '1', 'isCorrect' => false],
+                ['answer' => '2', 'isCorrect' => false],
+                ['answer' => '3', 'isCorrect' => false],
+                ['answer' => '4', 'isCorrect' => true],
+            ],
+        ], [
+            'question' => 'What is 1+2?',
+            'answers' => [
+                ['answer' => '1', 'isCorrect' => false],
+                ['answer' => '2', 'isCorrect' => false],
+                ['answer' => '3', 'isCorrect' => true],
+                ['answer' => '4', 'isCorrect' => false],
+            ],
+        ]);
+
+        $dFactory = new class {
+            use DeckFactoryTrait;
+
+            public function create(QuizQuestion ...$questions): QuestionDeck
+            {
+                return $this->createDeck(...$questions);
+            }
+        };
+
+        $this->assertInstanceOf(QuestionDeck::class, $dFactory->create($question));
     }
 }
