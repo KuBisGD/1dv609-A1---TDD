@@ -4,24 +4,27 @@ declare(strict_types=1);
 
 namespace App\Tdd\Quiz;
 
+use App\Tdd\Quiz\Trait\DeckFactoryTrait;
 use App\Tdd\Quiz\Trait\QuestionFactoryTrait;
 use App\Tdd\Quiz\Trait\ReadQuestionFileTrait;
 
 final class Quiz
 {
-    use ReadQuestionFileTrait, QuestionFactoryTrait;
+    use ReadQuestionFileTrait, QuestionFactoryTrait, DeckFactoryTrait;
 
-    private array $questions;
+    private QuestionDeck $questions;
 
     public function __construct(string $questionsFilePath)
     {
         $questionsData = $this->getQuestionsFromFile($questionsFilePath);
 
-        $this->questions = [];
+        $questions = [];
 
         foreach ($questionsData as $question) {
-            $this->questions[] = $this->createQuestion($question);
+            $questions[] = $this->createQuestion($question);
         }
+
+        $this->questions = $this->createDeck(...$questions);
     }
 
     /**
@@ -29,6 +32,12 @@ final class Quiz
      */
     public function getQuestions(): array
     {
-        return $this->questions;
+        $questions = [];
+
+        foreach ($this->questions as $question) {
+            $questions[] = $question;
+        }
+
+        return $questions;
     }
 }
