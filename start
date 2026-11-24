@@ -9,7 +9,6 @@ define('__AUTOLOADER__', __DIR__.'/vendor/autoload.php');
 define('__MAIN__', __DIR__.'/src/main.php');
 define('__STARTUP__', microtime(as_float: true));
 
-
 require_once __AUTOLOADER__;
 if(@include_once __MAIN__) exit(0);
 
