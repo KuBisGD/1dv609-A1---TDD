@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tdd\Quiz;
 
+use Countable;
 use Iterator;
 use Override;
 
-final class QuestionDeck implements Iterator
+final class QuestionDeck implements Iterator, Countable
 {
     /**
      * @var array<int, QuizQuestion>
@@ -48,5 +49,11 @@ final class QuestionDeck implements Iterator
     public function key(): int
     {
         return $this->internalIterator;
+    }
+
+    #[Override]
+    public function count(): int
+    {
+        return count($this->questions);
     }
 }
