@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tdd\Console\Interface;
 
-interface Output
+interface InputInterface
 {
-    public function write(string $string): void;
+    public function read(): string;
 }

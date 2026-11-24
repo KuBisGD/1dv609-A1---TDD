@@ -6,7 +6,7 @@ namespace App\Tdd\Console\Interface;
 
 use App\Tdd\Console\Menu;
 
-interface MenuFormatter
+interface MenuFormatterInterface
 {
     public function format(Menu $menu): string;
 }

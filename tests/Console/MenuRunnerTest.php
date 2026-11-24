@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Tdd\Console\Interface\Input;
-use App\Tdd\Console\Interface\MenuFormatter;
-use App\Tdd\Console\Interface\Output;
+use App\Tdd\Console\Interface\InputInterface;
+use App\Tdd\Console\Interface\MenuFormatterInterface;
+use App\Tdd\Console\Interface\OutputInterface;
 use App\Tdd\Console\Menu;
 use App\Tdd\Console\MenuOption;
 use App\Tdd\Console\MenuRunner;
@@ -17,9 +17,9 @@ final class MenuRunnerTest extends TestCase
         $menu = new Menu(new MenuOption('1', 'first 1', fn () => 'Hello world!'));
         $runner = new MenuRunner(
             menu: $menu, 
-            formatter: $this->createStub(MenuFormatter::class), 
-            input: $this->createStub(Input::class), 
-            output: $this->createStub(Output::class)
+            formatter: $this->createStub(MenuFormatterInterface::class), 
+            input: $this->createStub(InputInterface::class), 
+            output: $this->createStub(OutputInterface::class)
         );
 
         $this->assertInstanceOf(MenuRunner::class, $runner);
@@ -48,12 +48,12 @@ final class MenuRunnerTest extends TestCase
             ->method('execute')
             ->willReturn($expectedReturn);
 
-        $input = $this->createMock(Input::class);
+        $input = $this->createMock(InputInterface::class);
         $input->expects($this->once())
             ->method('read')
             ->willReturn('3');
 
-        $output = $this->createMock(Output::class);
+        $output = $this->createMock(OutputInterface::class);
         $output->expects($this->once())
             ->method('write')
             ->with($expectedReturn);
@@ -65,7 +65,7 @@ final class MenuRunnerTest extends TestCase
         );
         $runner = new MenuRunner(
             menu: $menu, 
-            formatter: $this->createStub(MenuFormatter::class), 
+            formatter: $this->createStub(MenuFormatterInterface::class), 
             input: $input, 
             output: $output
         );
@@ -73,25 +73,25 @@ final class MenuRunnerTest extends TestCase
         $runner->selectOptionFromInput();
     }
 
-    private function getInputStub(string $inputReturnValue): Input
+    private function getInputStub(string $inputReturnValue): InputInterface
     {
-        $mock = $this->createStub(Input::class);
+        $mock = $this->createStub(InputInterface::class);
         $mock->method('read')->willReturn($inputReturnValue);
         return $mock;
     }
 
-    private function getOutputMock(string $calledWith): Output
+    private function getOutputMock(string $calledWith): OutputInterface
     {
-        $mock = $this->createMock(Output::class);
+        $mock = $this->createMock(OutputInterface::class);
         $mock->expects($this->once())
             ->method('write')
             ->with($calledWith);
         return $mock;
     }
 
-    private function getFormatterMock(string $formatReturn): MenuFormatter
+    private function getFormatterMock(string $formatReturn): MenuFormatterInterface
     {
-        $mock = $this->createMock(MenuFormatter::class);
+        $mock = $this->createMock(MenuFormatterInterface::class);
         $mock->expects($this->once())
             ->method('format')
             ->willReturn($formatReturn);
@@ -104,7 +104,7 @@ final class MenuRunnerTest extends TestCase
 
             'input' => $this->getInputStub($inputValue),
 
-            'output' => new class($writeTo) implements Output {
+            'output' => new class($writeTo) implements OutputInterface {
                 public string $output;
 
                 public function __construct(string& $writeTo)
@@ -118,7 +118,7 @@ final class MenuRunnerTest extends TestCase
                 }
             },
 
-            'formatter' => new class implements MenuFormatter {
+            'formatter' => new class implements MenuFormatterInterface {
                 #[Override]
                 public function format(Menu $menu): string {
                     $formatted = '';
