@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 final class QuizTraitsTest extends TestCase
 {
     private string $tempfileName;
+    private array $data;
 
     public function __construct(string $name)
     {
@@ -23,7 +24,7 @@ final class QuizTraitsTest extends TestCase
 
         $this->tempfileName = $tempfileName;
 
-        $questions = json_encode([
+        $this->data = [
             [
                 'question' => 'What is 2+2?',
                 'answers' => [
@@ -42,7 +43,9 @@ final class QuizTraitsTest extends TestCase
                     ['answer' => '8', 'isCorrect' => true],
                 ],
             ]
-        ], JSON_THROW_ON_ERROR);
+        ];
+
+        $questions = json_encode($this->data, JSON_THROW_ON_ERROR);
 
         if (file_put_contents($this->tempfileName, $questions) === false) {
             unlink($this->tempfileName);
@@ -96,5 +99,21 @@ final class QuizTraitsTest extends TestCase
         };
 
         $this->assertIsResource($reader->read());
+    }
+
+    public function testParsingQuestionFileIsCorrect(): void
+    {
+        $reader = new class($this->tempfileName) {
+            use ReadQuestionFileTrait;
+
+            public function __construct(private string $path) {}
+    
+            public function parse(): mixed
+            {
+                return $this->getQuestionsFromFile($this->path);  
+            }
+        };
+
+        $this->assertArraysHaveIdenticalValues($this->data, $reader->parse());
     }
 }
