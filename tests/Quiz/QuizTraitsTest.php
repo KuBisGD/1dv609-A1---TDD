@@ -78,7 +78,7 @@ final class QuizTraitsTest extends TestCase
         }
     }
 
-    function testFactoryCanCrateTest(): void
+    public function testFactoryCanCrateTest(): void
     {
         $factory = new class {
             use QuestionFactoryTrait;
