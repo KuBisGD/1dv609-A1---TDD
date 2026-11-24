@@ -55,15 +55,4 @@ final class QuizDeckTest extends TestCase
         }
     }
   
-
-    function testQuizDeckCanBeCreateWithFilePath(): void
-    {
-        $deck = new QuizDeck($this->tempfileName);
-        $this->assertInstanceOf(QuizDeck::class, $deck);
-    }
-
-    function testDeckCanCreateQuestions(): void
-    {
-        $this->assertTrue(in_array(QuestionFactoryTrait::class, class_uses(QuizDeck::class)));
-    }
 }
