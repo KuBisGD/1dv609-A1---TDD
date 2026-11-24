@@ -13,6 +13,6 @@ trait ReadQuestionFileTrait
 
     protected function getFileStream(string $filePath): mixed
     {
-        
+        return fopen($filePath, 'r');
     }
 }
