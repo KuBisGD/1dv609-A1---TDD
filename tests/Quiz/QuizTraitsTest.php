@@ -8,8 +8,6 @@ use App\Tdd\Quiz\Trait\ReadQuestionFileTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(QuestionFactoryTrait::class)]
-#[CoversClass(ReadQuestionFileTrait::class)]
 final class QuizTraitsTest extends TestCase
 {
     private string $tempfileName;
@@ -83,5 +81,20 @@ final class QuizTraitsTest extends TestCase
 
         $this->assertInstanceOf(QuizQuestion::class, $question);
     }
-  
+
+    public function testReadCanOpenQuestionFile(): void
+    {
+        $reader = new class($this->tempfileName) {
+            use ReadQuestionFileTrait;
+
+            public function __construct(private string $path) {}
+    
+            public function read(): mixed
+            {
+                return $this->getFileStream($this->path);  
+            }
+        };
+
+        $this->assertIsResource($reader->read());
+    }
 }
