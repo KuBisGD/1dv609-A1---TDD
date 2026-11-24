@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tdd\Quiz\Trait;
 
+use InvalidArgumentException;
+
 trait ReadQuestionFileTrait
 {
     protected function getQuestionsFromFile(string $filePath): array
@@ -18,6 +20,9 @@ trait ReadQuestionFileTrait
 
     protected function getFileStream(string $filePath): mixed
     {
+        if (! is_file($filePath)) {
+            throw new InvalidArgumentException($filePath . ' is not a valid file');
+        }
         return fopen($filePath, 'r');
     }
 }
