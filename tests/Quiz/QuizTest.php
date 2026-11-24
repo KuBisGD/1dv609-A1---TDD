@@ -57,4 +57,12 @@ final class QuizTest extends TestCase
         $quiz = new Quiz($this->tempfileName);
         $this->assertInstanceOf(Quiz::class, $quiz);
     }
+
+    public function testQuizCanLoadQuestions(): void
+    {
+        $quiz = new Quiz($this->tempfileName);
+        $questions = $quiz->getQuestions();
+
+        $this->assertEquals(2, count($questions));
+    }
 }
