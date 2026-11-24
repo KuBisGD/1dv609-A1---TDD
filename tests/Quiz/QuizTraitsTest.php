@@ -57,7 +57,7 @@ final class QuizTraitsTest extends TestCase
         $this->reader = new class($this->tempfileName) {
             use ReadQuestionFileTrait;
 
-            public function __construct(private string $path) {}
+            public function __construct(public string $path) {}
     
             public function read(): mixed
             {
@@ -105,11 +105,20 @@ final class QuizTraitsTest extends TestCase
 
     public function testReadCanOpenQuestionFile(): void
     {
+        $this->reader->path = $this->tempfileName;
         $this->assertIsResource($this->reader->read());
+    }
+
+    public function testReaderThrowsIfInvalidPath(): void
+    {
+        $this->reader->path = '/valid***/pathname/.nothing.asd';
+        $this->expectException(InvalidArgumentException::class);
+        $this->reader->read();
     }
 
     public function testParsingQuestionFileIsCorrect(): void
     {
+        $this->reader->path = $this->tempfileName;
         $this->assertArraysHaveIdenticalValues($this->data, $this->reader->parse());
     }
 }
