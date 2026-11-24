@@ -13,6 +13,8 @@ final class QuizTraitsTest extends TestCase
     private string $tempfileName;
     private array $data;
 
+    private object $reader;
+
     public function __construct(string $name)
     {
         parent::__construct($name);
@@ -51,6 +53,22 @@ final class QuizTraitsTest extends TestCase
             unlink($this->tempfileName);
             throw new Exception('could not write tmpfile for tests');
         }
+
+        $this->reader = new class($this->tempfileName) {
+            use ReadQuestionFileTrait;
+
+            public function __construct(private string $path) {}
+    
+            public function read(): mixed
+            {
+                return $this->getFileStream($this->path);  
+            }
+
+            public function parse(): mixed
+            {
+                return $this->getQuestionsFromFile($this->path);  
+            }
+        };
     }
 
     public function __destruct()
@@ -87,33 +105,11 @@ final class QuizTraitsTest extends TestCase
 
     public function testReadCanOpenQuestionFile(): void
     {
-        $reader = new class($this->tempfileName) {
-            use ReadQuestionFileTrait;
-
-            public function __construct(private string $path) {}
-    
-            public function read(): mixed
-            {
-                return $this->getFileStream($this->path);  
-            }
-        };
-
-        $this->assertIsResource($reader->read());
+        $this->assertIsResource($this->reader->read());
     }
 
     public function testParsingQuestionFileIsCorrect(): void
     {
-        $reader = new class($this->tempfileName) {
-            use ReadQuestionFileTrait;
-
-            public function __construct(private string $path) {}
-    
-            public function parse(): mixed
-            {
-                return $this->getQuestionsFromFile($this->path);  
-            }
-        };
-
-        $this->assertArraysHaveIdenticalValues($this->data, $reader->parse());
+        $this->assertArraysHaveIdenticalValues($this->data, $this->reader->parse());
     }
 }
