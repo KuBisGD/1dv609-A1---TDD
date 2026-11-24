@@ -37,6 +37,18 @@ final class QuestionDeckTest extends TestCase
         $this->assertArraysHaveEqualValues($questions, iterator_to_array($deck));
     }
 
+    public function testDeckIsCountable(): void
+    {
+        $deck = new QuestionDeck(
+            $this->createQuestionWithNoConstructor(), 
+            $this->createQuestionWithNoConstructor(), 
+            $this->createQuestionWithNoConstructor()
+        );
+
+        $this->assertInstanceOf(Countable::class, $deck);
+        $this->assertEquals(3, count($deck));
+    }
+
     private function createQuestionWithNoConstructor(): QuizQuestion
     {
         return $this->getMockBuilder(QuizQuestion::class)
