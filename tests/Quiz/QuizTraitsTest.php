@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Tdd\Quiz\QuizDeck;
+use App\Tdd\Quiz\QuizQuestion;
 use App\Tdd\Quiz\Trait\QuestionFactoryTrait;
+use App\Tdd\Quiz\Trait\ReadQuestionFileTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-final class QuizDeckTest extends TestCase
+#[CoversClass(QuestionFactoryTrait::class)]
+#[CoversClass(ReadQuestionFileTrait::class)]
+final class QuizTraitsTest extends TestCase
 {
     private string $tempfileName;
 
@@ -53,6 +57,31 @@ final class QuizDeckTest extends TestCase
         if (isset($this->tempfileName) && is_file($this->tempfileName)) {
             unlink($this->tempfileName);
         }
+    }
+
+    function testFactoryCanCrateTest(): void
+    {
+        $factory = new class {
+            use QuestionFactoryTrait;
+
+            public function create(array $question): QuizQuestion
+            {
+                return $this->createQuestion($question);
+            }
+        };
+
+
+        $question = $factory->create([
+            'question' => 'What is 2+2?',
+            'answers' => [
+                ['answer' => '1', 'isCorrect' => false],
+                ['answer' => '2', 'isCorrect' => false],
+                ['answer' => '3', 'isCorrect' => false],
+                ['answer' => '4', 'isCorrect' => true],
+            ],
+        ]);
+
+        $this->assertInstanceOf(QuizQuestion::class, $question);
     }
   
 }
