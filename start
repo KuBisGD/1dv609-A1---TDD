@@ -10,7 +10,7 @@ define('__MAIN__', __DIR__.'/src/main.php');
 define('__STARTUP__', microtime(as_float: true));
 
 require_once __AUTOLOADER__;
-if(@include_once __MAIN__) exit(0);
+if (@include_once __MAIN__) exit(0);
 
 echo 'could not locate file ' . __MAIN__;
 die(2);
